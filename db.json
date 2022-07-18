@@ -1,0 +1,12 @@
+{
+  "customers": [
+    {
+      "name": "Adriano",
+      "business": "AACSoft SA",
+      "email": "adriano.ayc@aacsoft.com",
+      "telephone": "70782047",
+      "note": "Note",
+      "id": 1
+    }
+  ]
+}
