@@ -1,9 +1,11 @@
-import React, { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Box, Button, FormControl, InputLabel, TextField } from '@mui/material'
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
-const Formulario = ({customer}) => {
+const Formulario = () => {
+
+  const params = useParams()
 
   const navigate = useNavigate();
 
@@ -15,6 +17,21 @@ const Formulario = ({customer}) => {
     note: ''
   })
 
+
+  useEffect(() => {
+    const getCustomerAPI = async () => {
+      if(params.id) {
+        const url = import.meta.env.VITE_API_JSON_SERVER +"/"+ params.id
+        const { data } = await axios(url)
+
+        setCustomer(data)
+      }
+    }
+    
+    getCustomerAPI()
+  }, [params])
+
+
   const { name, business, email, telephone, note } = customer;
 
   const handleSubmit = async (e) => {
@@ -25,10 +42,14 @@ const Formulario = ({customer}) => {
       return
     }
 
-    const url = import.meta.env.VITE_API_JSON_SERVER
 
-    console.log(customer)
-    await axios.post(url, customer)
+    if(customer.id) {
+      const url = import.meta.env.VITE_API_JSON_SERVER +'/'+ customer.id
+      await axios.put(url, customer)
+    } else {
+      const url = import.meta.env.VITE_API_JSON_SERVER
+      await axios.post(url, customer)
+    }
 
     navigate('/customer')
   }
@@ -47,6 +68,7 @@ const Formulario = ({customer}) => {
           type='text'
           name='name'
           value={name}
+          // value={customer.name || ''}
           onChange={(e) => setCustomer({...customer, name: e.target.value})}
         />
       </FormControl>
@@ -58,6 +80,7 @@ const Formulario = ({customer}) => {
           type='text'
           name='business'
           value={business}
+          // value={customer.business || ''}
           onChange={(e) => setCustomer({...customer, business: e.target.value})}
         />
       </FormControl>
@@ -100,10 +123,14 @@ const Formulario = ({customer}) => {
         textAlign: 'center',
         marginTop: 2
       }}>
-        <Button type='submit' variant='contained'>Add Customer</Button>
+        <Button type='submit' variant='contained'>{customer.id ? 'Update' : 'Add'} Customer</Button>
       </Box>
     </form>
   )
+}
+
+Formulario.preventDefault = {
+  customer: {}
 }
 
 export default Formulario

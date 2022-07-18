@@ -7,6 +7,14 @@
       "telephone": "70782047",
       "note": "Note",
       "id": 1
+    },
+    {
+      "name": "Daniela",
+      "business": "Cosmetic SA",
+      "email": "daniela@cosmetic.com",
+      "telephone": "75683423",
+      "note": "Note",
+      "id": 2
     }
   ]
 }
