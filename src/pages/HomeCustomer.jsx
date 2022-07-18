@@ -1,47 +1,74 @@
-import React from 'react'
-import { Button, Container, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material'
+import React, { useEffect, useState } from 'react'
+import { Box, Button, Container, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material'
+import axios from 'axios'
+import { useNavigate } from 'react-router-dom';
+import CustomerRow from '../components/CustomerRow';
 
 const HomeCustomer = () => {
+
+  const navigate = useNavigate();
+
+  const [customers, setCustomers] = useState([]);
+
+  useEffect(() => {
+    const queryAPI = async () => {
+      const url = import.meta.env.VITE_API_JSON_SERVER
+      const { data } = await axios.get(url)
+
+      setCustomers(data)
+    }
+
+    queryAPI()
+  }, [])
+
+  // console.log(customers)
+  // console.log(Object.keys(customers).length)
+
+  const handleEliminar = async (id) => {
+    const url = import.meta.env.VITE_API_JSON_SERVER +"/"+ id
+    await axios.delete(url)
+
+    navigate('/customer')
+  }
+
   return (
     <Container>
       <Typography component={'h2'} variant='h3' color={'#1b3380'}>Customers</Typography>
       <Typography component={'p'} variant='p'>Manage your Customers</Typography>
 
-      <TableContainer>
-        <Table sx={{marginTop: '30px'}}>
-          <TableHead>
-            <TableRow>
-              <TableCell>Name</TableCell>
-              <TableCell>Contact</TableCell>
-              <TableCell>Business</TableCell>
-              <TableCell>Actions</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            <TableRow>
-              <TableCell>Adriano Ayala</TableCell>
-              <TableCell>
-                <Typography component={'p'} variant='p'>
-                  <Typography component={'span'} variant='subtitle2'>EMAIL: </Typography>adriano@gmail.com
-                </Typography>
-                <Typography component={'p'} variant='p'>
-                  <Typography component={'span'} variant='subtitle2'>TELEPHONE: </Typography>70782047
-                </Typography>
-              </TableCell>
-              <TableCell>AACSoft SA</TableCell>
-              <TableCell sx={{
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center'
-              }}>
-                <Button variant='contained' color='success' sx={{marginTop: '2px', marginBottom: '2px'}}>View</Button>
-                <Button variant='contained' sx={{marginTop: '2px', marginBottom: '2px'}}>Edit</Button>
-                <Button variant='contained' color='error' sx={{marginTop: '2px', marginBottom: '2px'}}>Remove</Button>
-              </TableCell>
-            </TableRow>
-          </TableBody>
-        </Table>
-      </TableContainer>
+      {Object.keys(customers).length > 0 ? (
+        <TableContainer>
+          <Table sx={{marginTop: '30px'}}>
+            <TableHead>
+              <TableRow>
+                <TableCell>Name</TableCell>
+                <TableCell>Contact</TableCell>
+                <TableCell>Business</TableCell>
+                <TableCell>Actions</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              
+              {customers.map(customer => (
+                <CustomerRow
+                  key={customer.id}
+                  customer={customer}
+                  handleEliminar={handleEliminar}
+                />
+              ))}
+  
+                {/* {customers.map(customer => {
+                  console.log(customer)
+                })} */}
+  
+            </TableBody>
+          </Table>
+        </TableContainer>
+      ) : (
+        <Box>
+          <Typography component={'p'} variant='p' sx={{marginTop: '30px'}}>There are no customer</Typography>
+        </Box>
+      )}
     </Container>
   )
 }
