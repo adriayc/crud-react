@@ -30,7 +30,7 @@ const CustomerRow = ({customer, handleEliminar}) => {
       }}>
         <Button variant='contained' color='success' sx={{marginTop: '2px', marginBottom: '2px'}} onClick={() => navigate(`view/${id}`)}>View</Button>
         <Button variant='contained' sx={{marginTop: '2px', marginBottom: '2px'}} onClick={() => navigate(`edit/${id}`)}>Edit</Button>
-        <Button variant='contained' color='error' sx={{marginTop: '2px', marginBottom: '2px'}} onClick={() => handleEliminar(id)}  >Remove</Button>
+        <Button variant='contained' color='error' sx={{marginTop: '2px', marginBottom: '2px'}} onClick={() => handleEliminar(id)}>Remove</Button>
       </TableCell>
     </TableRow>
   )

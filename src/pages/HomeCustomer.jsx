@@ -28,7 +28,10 @@ const HomeCustomer = () => {
     const url = import.meta.env.VITE_API_JSON_SERVER +"/"+ id
     await axios.delete(url)
 
-    navigate('/customer')
+    // location.reload()
+
+    const updateCustomers = customers.filter(customer => customer.id !== id)
+    setCustomers(updateCustomers);
   }
 
   return (
