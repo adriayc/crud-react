@@ -1,7 +1,16 @@
 import { useEffect, useState } from 'react'
+import { atom, useAtom} from 'jotai'
 import { Box, Button, FormControl, InputLabel, TextField } from '@mui/material'
 import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
+
+const customerAtom = atom({
+  name: '',
+  business: '',
+  email: '',
+  telephone: '',
+  note: ''
+})
 
 const Formulario = () => {
 
@@ -9,14 +18,7 @@ const Formulario = () => {
 
   const navigate = useNavigate();
 
-  const [customer, setCustomer] = useState({
-    name: '',
-    business: '',
-    email: '',
-    telephone: '',
-    note: ''
-  })
-
+  const [customer, setCustomer] = useAtom(customerAtom)
 
   useEffect(() => {
     const getCustomerAPI = async () => {
@@ -53,7 +55,6 @@ const Formulario = () => {
 
     navigate('/customer')
   }
-
 
   return (
     <form

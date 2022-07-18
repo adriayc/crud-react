@@ -1,14 +1,18 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
+import { atom, useAtom} from 'jotai'
 import { Box, Button, Container, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom';
 import CustomerRow from '../components/CustomerRow';
 
+
+const customersAtom = atom([])
+
 const HomeCustomer = () => {
 
   const navigate = useNavigate();
 
-  const [customers, setCustomers] = useState([]);
+  const [customers, setCustomers] = useAtom(customersAtom)
 
   useEffect(() => {
     const queryAPI = async () => {
@@ -20,9 +24,6 @@ const HomeCustomer = () => {
 
     queryAPI()
   }, [])
-
-  // console.log(customers)
-  // console.log(Object.keys(customers).length)
 
   const handleEliminar = async (id) => {
     const url = import.meta.env.VITE_API_JSON_SERVER +"/"+ id
@@ -59,10 +60,6 @@ const HomeCustomer = () => {
                   handleEliminar={handleEliminar}
                 />
               ))}
-  
-                {/* {customers.map(customer => {
-                  console.log(customer)
-                })} */}
   
             </TableBody>
           </Table>

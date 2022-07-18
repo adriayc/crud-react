@@ -1,13 +1,16 @@
-import axios from 'axios'
 import { useState,  useEffect } from 'react'
+import { atom, useAtom} from 'jotai'
 import { useParams } from 'react-router-dom'
+import axios from 'axios'
 import { Box, Container, Typography } from '@mui/material'
+
+const customerAtom = aton({})
 
 const ViewCustomer = () => {
 
   const { id } = useParams()
 
-  const [ customer, setCustomer ] = useState({})
+  const [ customer, setCustomer ] = useAtom(customerAtom)
 
   useEffect(() => {
     const getCustomerAPI = async () => {

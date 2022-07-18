@@ -3,13 +3,10 @@ import { Button, TableCell, TableRow, Typography } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
 
 const CustomerRow = ({customer, handleEliminar}) => {
-  // console.log(customer)
 
   const navigate = useNavigate()
 
   const { id, name, business, email, telephone, note } = customer
-
-
 
   return (
     <TableRow>
