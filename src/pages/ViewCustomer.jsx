@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom'
 import axios from 'axios'
 import { Box, Container, Typography } from '@mui/material'
 
-const customerAtom = aton({})
+const customerAtom = atom({})
 
 const ViewCustomer = () => {
 
